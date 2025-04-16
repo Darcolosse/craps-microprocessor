@@ -1,0 +1,7 @@
+module fulladder(a, b, carry_in : s, carry_out)
+   x = a*/b + /a*b
+   s = x*/carry_in + /x*carry_in
+   
+   //carry_out = a*b + carry_in*x Another method
+   carry_out = a*/x + carry_in*x 
+end module
