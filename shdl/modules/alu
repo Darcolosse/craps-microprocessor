@@ -1,7 +1,7 @@
 module alu(a[31..0], b[31..0], cmd[5..0] : s[31..0], enN, enZ, enVC, N, Z, V, C)
     // Command decoding
     decoder6to64(cmd[5..0], c[63..0])
-   
+
     // add / addcc / sub / subcc
     addsub32(a[31..0], b[31..0], cmd[2], d[31..0], tV, tC)
     s[31..0] = d[31..0] output enabled when c[0] + c[4] + c[16] + c[20]

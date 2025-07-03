@@ -15,63 +15,118 @@ module sequencer(rst, clk, ir[31..0], N, Z, V, C : areg[4..0], breg[4..0], dreg[
     ir_branch = /ir[31] * /ir[30] * ir[29]
     // Sethi (instruction to load a constant)
     ir_sethi = /ir[31] * /ir[30] * /ir[29]
-	
+    
     // Loading and storing
     ir_ld = /ir[21] // Refers to loading a value from the register
     ir_st = ir[21]  // Refers to a value stored in memory
 
 
-	// States management
-	fetch := pcplus1 + branch + decode * /test * ir_branch on clk, set when rst
+    // States management
+    fetch := pcplus1 + branch + decode * /test * ir_branch on clk, set when rst
 
-	decode := fetch on clk, reset when rst
-	calc_imm := decode * ir_constant on clk, reset when rst
+    decode := fetch on clk, reset when rst
+    calc_imm := decode * ir_constant on clk, reset when rst
 
-	addr := decode * ir_mem_registre + addr_imm on clk, reset when rst
-	addr_imm := decode * ir_mem_constant on clk, reset when rst
+    addr := decode * ir_mem_registre + addr_imm on clk, reset when rst
+    addr_imm := decode * ir_mem_constant on clk, reset when rst
 
-	branch := decode * test * ir_branch on clk, reset when rst
-	pcplus1 := decode * ir_register + calc_imm + decode * ir_sethi + addr on clk, reset when rst
-
-	
-	// Branching management (ba, be, bne, ...)
-	decoder4to16(ir[28..25], b[15..0])
-
-	n_xor_v = N * /V + /N * V
-	z_or_n_xor_v = Z + n_xor_v
-	z_or_c = Z + C
-
-	test = 	b[8] * "1" 				+ // ba  : branch always
-			b[1] * Z 				+ // be  : branch if equal
-			b[9] * /Z 				+ // bne : branch if not equal
-			b[5] * C 				+ // bcs : branch if carry
-			b[13] * /C 				+ // bcc : branch if carry clear
-			b[14] * /N 				+ // bpos: branch if positive
-			b[6] * N 				+ // bneg: branch if negative
-			b[7] * V 				+ // bvs : branch if overflow set
-			b[15] * /V 				+ // bvc : branch if overflow clear
-			b[10] * /z_or_n_xor_v	+ // bg  : branch if greater
-			b[2] * z_or_n_xor_v		+ // ble : branch if less or equal
-			b[11] * /n_xor_v 		+ // bge : branch if greater or equal
-			b[3] * n_xor_v 			+ // bl  : branch if less
-			b[12] * /z_or_c 		+ // bgu : branch if greater unsigned
-			b[4] * z_or_c			  // bleu: branch if less or equal unsigned
+    branch := decode * test * ir_branch on clk, reset when rst
+    pcplus1 := decode * ir_register + calc_imm + decode * ir_sethi + addr on clk, reset when rst
 
 
-	// Parameters
-	areg[4..0] = "11110" * fetch + ir[18..14] * decode * ir_register + "11111" * decode * ir_constant + ir[18..14] * calc_imm + "11110" * pcplus1 + "11110" * decode * /test * ir_branch + "11111" * decode * test * ir_branch + "11110" * branch + "11111" * decode * ir_sethi		+ ir[18..14] * decode * ir_mem_registre + "11111" * decode * ir_mem_constant  + ir[18..14] * addr_imm + "10101" * addr * ir_ld + "10101" * addr * ir_st
+    // Branching management (ba, be, bne, ...)
+    decoder4to16(ir[28..25], b[15..0])
 
-	breg[4..0] =                   ir[4..0] * decode * ir_register                                    + "10101" * calc_imm + "10100" * pcplus1 	  + "10100" * decode * /test * ir_branch                           			   + "10101" * branch									+ ir[4..0] * decode * ir_mem_registre										  + "10101" * addr_imm							   + "00010" * addr * ir_st
+    n_xor_v = N * /V + /N * V
+    z_or_n_xor_v = Z + n_xor_v
+    z_or_c = Z + C
 
-	dreg[4..0] = "11111" * fetch + ir[29..25] * decode * ir_register + "10101" * decode * ir_constant + ir[29..25] * calc_imm + "11110" * pcplus1 + "11110" * decode * /test * ir_branch + "10101" * decode * test * ir_branch + "11110" * branch + ir[28..24] * decode * ir_sethi	+ "10101" * decode * ir_mem_registre 	 + "10101" * decode * ir_mem_constant + "10101" * addr_imm + ir[29..25] * addr * ir_ld + "00000" * addr * ir_st
+    test =  b[8] * "1"              + // ba  : branch always
+            b[1] * Z                + // be  : branch if equal
+            b[9] * /Z               + // bne : branch if not equal
+            b[5] * C                + // bcs : branch if carry
+            b[13] * /C              + // bcc : branch if carry clear
+            b[14] * /N              + // bpos: branch if positive
+            b[6] * N                + // bneg: branch if negative
+            b[7] * V                + // bvs : branch if overflow set
+            b[15] * /V              + // bvc : branch if overflow clear
+            b[10] * /z_or_n_xor_v   + // bg  : branch if greater
+            b[2] * z_or_n_xor_v     + // ble : branch if less or equal
+            b[11] * /n_xor_v        + // bge : branch if greater or equal
+            b[3] * n_xor_v          + // bl  : branch if less
+            b[12] * /z_or_c         + // bgu : branch if greater unsigned
+            b[4] * z_or_c             // bleu: branch if less or equal unsigned
 
-	cmd_alu[5..0] =                ir[24..19] * decode * ir_register + "100000" * decode * ir_constant+ ir[24..19] * calc_imm + "000000" * pcplus1+ "000000"* decode * /test * ir_branch + "100001" * decode * test * ir_branch+ "000000"* branch + "100011" * decode * ir_sethi	+ "000000" * decode * ir_mem_registre	 + "100000" * decode * ir_mem_constant+ "000000" * addr_imm + "000000" * addr * ir_ld  + "101000" * addr * ir_st
 
-	oe_mem = fetch * /decode * /calc_imm * /pcplus1 * /branch + ir_ld * addr
+    // Parameters
+    areg[4..0] ="11110"     * fetch                                 +
+                ir[18..14]  * decode    * ir_register               +
+                "11111"     * decode    * ir_constant               +
+                ir[18..14]  * calc_imm                              +
+                "11110"     * pcplus1                               +
+                "11110"     * decode    * /test         * ir_branch +
+                "11111"     * decode    * test          * ir_branch +
+                "11110"     * branch                                +
+                "11111"     * decode    * ir_sethi                  +
+                ir[18..14]  * decode    * ir_mem_registre           +
+                "11111"     * decode    * ir_mem_constant           +
+                ir[18..14]  * addr_imm                              +
+                "10101"     * addr      * ir_ld                     +
+                "10101"     * addr      * ir_st
 
-	write = 0 + 1 * addr * ir_st
+    breg[4..0] =
+                ir[4..0]    * decode    * ir_register               +
+                
+                "10101"     * calc_imm                              +
+                "10100"     * pcplus1                               +
+                "10100"     * decode    * /test         * ir_branch +
+                
+                "10101"     * branch                                +
+                
+                ir[4..0]    * decode    * ir_mem_registre           +
+
+                "10101"     * addr_imm                              +
+
+                "00010"     * addr      * ir_st
+
+    dreg[4..0] ="11111"     * fetch                                 + 
+                ir[29..25]  * decode    * ir_register               +
+                "10101"     * decode    * ir_constant               +
+                ir[29..25]  * calc_imm                              +
+                "11110"     * pcplus1                               +
+                "11110"     * decode    * /test         * ir_branch +
+                "10101"     * decode    * test          * ir_branch +
+                "11110"     * branch                                +    
+                ir[28..24]  * decode    * ir_sethi                  +
+                "10101"     * decode    * ir_mem_registre           +
+                "10101"     * decode    * ir_mem_constant           +
+                "10101"     * addr_imm                              +
+                ir[29..25]  * addr      * ir_ld                     +
+                "00000"     * addr      * ir_st
+
+    cmd_alu[5..0] =                
+                ir[24..19]  * decode    * ir_register               +
+                "100000"    * decode    * ir_constant               +
+                ir[24..19]  * calc_imm                              +
+                "000000"    * pcplus1                               +
+                "000000"    * decode    * /test         * ir_branch +
+                "100001"    * decode    * test          * ir_branch +
+                "000000"    * branch                                +
+                "100011"    * decode    * ir_sethi                  +
+                "000000"    * decode    * ir_mem_registre           +
+                "100000"    * decode    * ir_mem_constant           +
+                "000000"    * addr_imm                              +
+                "000000"    * addr     * ir_ld                      +
+                "101000"    * addr     * ir_st
+
+    // Dbus Access
+    oe_mem =    fetch * /decode * /calc_imm * /pcplus1 * /branch +  // for RAM
+                ir_ld * addr                                        // for board switches
+
+    // Write on memory
+    write = 0 + 1 * addr * ir_st
 
 
-	// Not pay attention; it's essential for the simulator.
-	s[7..0] = ir[12..5]
+    // Not pay attention; it's essential for the simulator.
+    s[7..0] = ir[12..5]
 end module
