@@ -14,8 +14,8 @@ module sequencer(rst, clk, ir[31..0], N, Z, V, C : areg[4..0], breg[4..0], dreg[
     // Branching
     ir_branch = /ir[31] * /ir[30] * ir[29]
     // Sethi (instruction to load a constant)
-    ir_sethi = /ir[31] * /ir[30] * ir[29]
-
+    ir_sethi = /ir[31] * /ir[30] * /ir[29]
+	
     // Loading and storing
     ir_ld = /ir[21] // Refers to loading a value from the register
     ir_st = ir[21]  // Refers to a value stored in memory
