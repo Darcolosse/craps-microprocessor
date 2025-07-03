@@ -20,7 +20,7 @@ module micromachine(rst, clk, areg[4..0], breg[4..0], dreg[4..0], cmd_alu[5..0],
 	// Managment of bus 
 	dbus[31..0] = dbus_alu[31..0] output enabled when /oe_mem 							// When we use ALU
 	dbus[31..0] = dbus_ram[31..0] output enabled when oe_mem * cs[0]					// When we use RAM
-	dbus[31..0] = "0000000000000000"*switches[15..0] output enabled when oe_mem * cs[9]	// When we use switchs on circuit board
+	dbus[31..0] = "0000000000000000" * switches[15..0] output enabled when oe_mem * cs[9]	// When we use switchs on circuit board
 
 	// Management of leds
 	leds[15..0] := dbus[15..0] on clk, reset when rst, enabled when write * cs[11] 

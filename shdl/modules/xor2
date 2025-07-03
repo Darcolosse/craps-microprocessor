@@ -1,3 +1,0 @@
-module xor2(a, b : s)
-s = a * /b + /a * b
-end module
