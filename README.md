@@ -1,7 +1,7 @@
 # Microprocesseur en CRAPS
 
 > [!CAUTION]
-> You can find the [README (English)](./README_en.md) in English if you prefer
+> You can find the [README (English)](./README_EN.md) in English if you prefer
 
 
 
