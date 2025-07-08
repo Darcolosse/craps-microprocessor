@@ -22,11 +22,11 @@ Voici un tableau comparatif des architectures CISC et RISC :
 ## Architecture générale du microprocesseur CRAPS
 Notre microprocesseur possède plusieurs composants, séparés en 2 grandes parties :
 1. Micromachine  
-    > [!TIP]
-    > Vous pouvez retrouver en détail l'implémentation de la micromachine dans les codes fournis [shdl/modules/micromachine](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/micromachine).
+> [!TIP]
+> Vous pouvez retrouver en détail l'implémentation de la micromachine dans les codes fournis [shdl/modules/micromachine](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/micromachine).
 2. Séquenceur  
-    > [!TIP]
-    > Vous pouvez retrouver en détail l'implémentation du séquenceur dans les codes fournis [shdl/modules/sequencer](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/sequencer).
+> [!TIP]
+> Vous pouvez retrouver en détail l'implémentation du séquenceur dans les codes fournis [shdl/modules/sequencer](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/sequencer).
 
 ## La micromachine
 
