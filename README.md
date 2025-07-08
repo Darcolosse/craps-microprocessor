@@ -1,7 +1,12 @@
 # Microprocesseur en CRAPS
 Ce projet a été réalisé dans le cadre d'un TP (Travaux Pratiques) dirigé par [Jean-Christophe Buisson](https://fr.linkedin.com/in/jean-christophe-buisson) et appuyé sur son [livre](https://amazon.fr/stores/Jean-Christophe-Buisson/author/B004N2KQXM) à l'[ENSEEIHT](https://www.enseeiht.fr/).
 
-Le but de ce projet était d'implémenter en SHDL* un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.
+Le but de ce projet était d'implémenter en SHDL un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.
+
+> [!NOTE]
+> SHDL est un langage pour décrire les circuits numériques d'une manière simple et modulaire. 
+> Il ne s'agit pas d'un langage de programmation, mais de description des différents équipotentiels qui composent un circuit et de leurs relations combinatoires ou séquentielles. 
+> Une fois qu'une conception a été décrite correctement en SHDL, elle peut être « alimentée » et diffusée par simulation ou synthèse dans un véritable circuit FPGA.
 
 En comparaison avec la famille de processeurs CISC, comme ceux basés sur l'architecture x86, les processeurs CISC consomment généralement plus d'énergie. En effet, pour réaliser une opération, ils doivent passer par plusieurs cycles d'horloge.
 
