@@ -29,7 +29,7 @@ Notre micro processeur possède plusieurs composants, séparé en 2 grandes part
 
 
 
-### La micromachine
+## La micromachine
 
 La micromachine constitue le cœur du processeur, intégrant plusieurs composants essentiels :
 - **Registres** (d’architecture interne)
@@ -43,40 +43,60 @@ Pour assurer la communication entre ces modules, la micromachine utilise trois b
 - **abus** : Bus d’adresses
 - **bbus** : Bus de contrôle (signaux de commande)
 
-#### Fonctionnement et interactions
+### Fonctionnement et interactions
 Le schéma général de la micromachine (voir ci-dessous) illustre comment ces composants sont reliés et comment ils interagissent pour réaliser les opérations du microprocesseur.
 
-![Schéma_Micromachine](./doc/MICROMACHINE.svg)
+![Schéma_Micromachine](./doc/MICROMACHINE.png)
 
-##### Pourquoi un court-circuit est impossible sur le bus D (dbus) ?
+#### Pourquoi un court-circuit est impossible sur le bus D (dbus) ?
 La conception du bus inclut des mécanismes de contrôle (par exemple, des signaux d’activation et de sélection) qui empêchent plusieurs modules d’écrire simultanément sur le bus, évitant ainsi tout court-circuit.
 
-##### Lecture et écriture en RAM :
+#### Lecture et écriture en RAM :
 La RAM est accessible via le module **$ram_aread_swrite(clk, write, abus[8..0], dbus[31..0]: dbus_ram[31..0])**. Lorsqu’un signal write est actif, la donnée **abus** est stockée à l’adresse **dbus**. En l’absence de ce signal, la RAM fournit la donnée présente à l’adresse spécifiée.
 
-##### Calcul sur deux registres et stockage du résultat :
+#### Calcul sur deux registres et stockage du résultat :
 Les registres **abus** et **bbus** contiennent les opérandes. L’UAL effectue l’opération demandée, et stocke le résultat soit dans un registre soit dans la RAM.
 
-##### Contrôle des LEDs :
+#### Contrôle des LEDs :
 La sortie leds[15..0] est directement reliée à des leds physique contrôlée par la micromachine, permettant d’afficher des états ou des résultats.
 
-##### Lecture des switches :
+#### Lecture des switches :
 L’entrée switches[15..0] permet de récupérer l’état des switches physiques, qui peuvent servir d’entrées pour des opérations ou des tests.
 
-#### Le registre
+### Le registre
+
+Nous processeur possède un ensemble de registres les voici :
+
+| Référence  | Fonction                                              
+|------------|--------------------------------------------------------|
+| %r0        | Registre **zéro**, valeur constante, utilisé pour opérations logiques et comme source de zéro |
+| ...        |  |
+| %r20       | Registre qui est constament égal à **un** |
+| %r21 (tmp1)| Registre contenant des valeurs temporaire |
+| ...  (tmpX)|  |
+| %r26 (brk) |  |
+| %r27 (fp)  | Pointeur à la base du stack-frame courant |
+| %r28 (ret) | Est utilisé pour sauvegarder l’adresse de retour lors d’appels de sous-programmes |
+| %r29 (sp)  | Pointeur vers la dernière empiler |
+| %r30 (pc)  | Correspond au Programme Counter, qui contient en permanance l'adresse de l'instruction en cours |
+| %r31 (ir)  | Registre d'instruction du procreseur |
+
+> [!NOTE]
+> Une stack-frame est une zone de mémoire sur la pile (stack) créée chaque fois qu'on entre dans un bloc ou qu'on appelle une fonction.
+> Elle sert à stocker les variables locales, les paramètres de la fonction ou du bloc, et l'adresse de retour (pour revenir à l'endroit où l'on était avant l'appel).
 
 > [!TIP]
 > Vous pouvez retrouver en détails l'implémentation du registre dans les codes fournis [shdl/modules/registers](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/registers).
 
-#### L'UAL*
+### L'UAL*
 L'Unitée Arithmétique et Logique (UAL*) est un composant essentiel du processeur, chargé d'effectuer des opérations arithmétiques et logiques sur des données. Elle reçoit plusieurs entrées et fournit des sorties correspondant aux résultats de ces opérations, ainsi que des indicateurs d’état (flags).
 
-##### Entrées de l'UAL*
+#### Entrées de l'UAL*
 - **abus** : Bus de donnée contenant l'opérande A à traiter.
 - **bbus** : Bus de donnée contenant l'opérande B à traiter.
 - **cmd_alu** : Code opération, déterminant l’opération à effectuer. Sa valeur binaire sur 6 bits indique l’opération spécifique selon le tableau ci-dessous.
 
-##### Sorties de l'UAL*
+#### Sorties de l'UAL*
 - **dbus_alu** : Bus de données de sortie, contenant le résultat de l’opération effectuée.
 - **Flags (N, Z, V, C)** : Bits indicateurs d’état, modifiés ou non selon l’opération.
 - **enN, enZ, enV, enC** : Signaux d’activation pour la mise à jour des flags, indiquant si chaque flag doit être affecté par l’opération en cours.
@@ -104,7 +124,7 @@ Quand nous voulons effectuer une opération, nous avons en entrée deux opérand
 | 100011 (35) | SETHI, forçage des 24 bits de poids forts            | aucun               |
 | 101000 (40) | NOPB, no operation bus B                             | aucun               |
 > [!NOTE]
-> ##### C'est quoi un flag (N, Z, V, C) ?
+> #### C'est quoi un flag (N, Z, V, C) ?
 > Les flags (ou indicateurs d’état) sont des bits spéciaux qui renseignent sur le résultat des opérations effectuées par l’UAL. Par exemple :
 > - **N** indique que le résultat de l’opération est négatif, c’est à dire que son poids fort est à 1.
 >- **Z** indique que le résultat de l’opération est nul.
@@ -115,4 +135,4 @@ Quand nous voulons effectuer une opération, nous avons en entrée deux opérand
 > Vous pouvez retrouver en détails l'implémentation de l'UAL dans les codes fournis [shdl/modules/alu](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/alu).
 
 
-#### Management des bus et des E/S*
+### Management des bus et des E/S*
