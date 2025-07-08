@@ -103,18 +103,13 @@ Quand nous voulons effectuer une opération, nous avons en entrée deux opérand
 | 100001 (33) | SIGNEXT25, extension de signe bus A, 25 bits→32 bits | aucun               |
 | 100011 (35) | SETHI, forçage des 24 bits de poids forts            | aucun               |
 | 101000 (40) | NOPB, no operation bus B                             | aucun               |
-
-##### C'est quoi un flag (N, Z, V, C) ?
-<p style="text-align: justify;">
-    Les flags (ou indicateurs d’état) sont des bits spéciaux qui renseignent sur le résultat des opérations effectuées par l’UAL. Par exemple :
-</p>
-
-- **N** indique que le résultat de l’opération est négatif, c’est à dire que son poids fort est à 1.
-- **Z** indique que le résultat de l’opération est nul.
-- **V** indique qu’il y a eu débordement d’une addition ou d’une soustraction signée.
-- **C** indique qu’il y a eu une retenue lors d’une addition ou emprunt lors d’une soustraction
-
-Les flags sont uutilisé dans pour les branchements, voici la liste de lutilisation de ses branchements :
+> [!NOTE]
+> ##### C'est quoi un flag (N, Z, V, C) ?
+> Les flags (ou indicateurs d’état) sont des bits spéciaux qui renseignent sur le résultat des opérations effectuées par l’UAL. Par exemple :
+> - **N** indique que le résultat de l’opération est négatif, c’est à dire que son poids fort est à 1.
+>- **Z** indique que le résultat de l’opération est nul.
+>- **V** indique qu’il y a eu débordement d’une addition ou d’une soustraction signée.
+>- **C** indique qu’il y a eu une retenue lors d’une addition ou emprunt lors d’une soustraction
 
 > [!TIP]
 > Vous pouvez retrouver en détails l'implémentation de l'UAL dans les codes fournis [shdl/modules/alu](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/alu).
