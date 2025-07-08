@@ -1,11 +1,10 @@
 # Micro processeur en CRAPS
-<p style="text-align: justify;">
-    Ce projet a été réalisé dans le cadre d'un TP (Travaux Pratiques) dirigé par  <a href="https://fr.linkedin.com/in/jean-christophe-buisson">Jean-Christophe Buisson</a> et appuyé sur son  <a href="https://amazon.fr/stores/Jean-Christophe-Buisson/author/B004N2KQXM">livre</a> à l'<a href="https://www.enseeiht.fr/">ENSEEIHT</a>.
-    <br><br>
-    Le but de ce projet était d'implémenter en SHDL* un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.
-    <br><br>
-    En comparaison avec la famille de processeurs CISC, comme ceux basés sur l'architecture x86, les processeurs CISC consomment généralement plus d'énergie. En effet, pour réaliser une opération, ils doivent passer par plusieurs cycles d'horloge.
-</p>
+Ce projet a été réalisé dans le cadre d'un TP (Travaux Pratiques) dirigé par  [Jean-Christophe Buisson](https://fr.linkedin.com/in/jean-christophe-buisson) et appuyé sur son  [livre](https://amazon.fr/stores/Jean-Christophe-Buisson/author/B004N2KQXM) à l'[ENSEEIHT](https://www.enseeiht.fr/).
+
+
+Le but de ce projet était d'implémenter en SHDL* un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.
+
+En comparaison avec la famille de processeurs CISC, comme ceux basés sur l'architecture x86, les processeurs CISC consomment généralement plus d'énergie. En effet, pour réaliser une opération, ils doivent passer par plusieurs cycles d'horloge.
 
 Voici un tableau comparatif des architectures CISC et RISC :
 
@@ -22,7 +21,11 @@ Voici un tableau comparatif des architectures CISC et RISC :
 ## Architecture général du micro processeur CRAPS
 Notre micro processeur possède plusieurs composants, séparé en 2 grandes partie :
 1. Micro machine
+> [!TIP]
+> Vous pouvez retrouver en détails l'implémentation de la micromachine dans les codes fournis [shdl/modules/micromachine](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/micromachine).
 2. Séquenceur
+> [!TIP]
+> Vous pouvez retrouver en détails l'implémentation du séquenceur dans les codes fournis [shdl/modules/sequencer](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/sequencer).
 
 
 
@@ -60,17 +63,11 @@ La sortie leds[15..0] est directement reliée à des leds physique contrôlée p
 ##### Lecture des switches :
 L’entrée switches[15..0] permet de récupérer l’état des switches physiques, qui peuvent servir d’entrées pour des opérations ou des tests.
 
-### La micromachine
-La micromachine est le coeur même de notre processeur, on retrouve dedans différents composants comme des registres; un UAL*, une gestion d'512x32 RAM, une entrée avec 16 switches et enfin 16 leds.
-Pour permettre le lien entre ses différents modules on utilise 3 bus :
-- dbus
-- abus
-- bbus
-Pour mieux comprendre nous pouvons nous appuyer sur ce schéma : 
-[image]
-
-[EXPLICATION DU CS]
 #### Le registre
+
+> [!TIP]
+> Vous pouvez retrouver en détails l'implémentation du registre dans les codes fournis [shdl/modules/registers](https://github.com/Darcolosse/craps-microprocessor/blob/main/shdl/modules/registers).
+
 #### L'UAL*
 L'Unitée Arithmétique et Logique (UAL*) est un composant essentiel du processeur, chargé d'effectuer des opérations arithmétiques et logiques sur des données. Elle reçoit plusieurs entrées et fournit des sorties correspondant aux résultats de ces opérations, ainsi que des indicateurs d’état (flags).
 
