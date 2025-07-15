@@ -8,7 +8,7 @@ This project was carried out as part of a lab (Travaux Pratiques) led by [Jean-C
 The goal of this project was to implement a CRAPS microprocessor in SHDL. CRAPS is a 32-bit microprocessor based on the SPARC architecture, which belongs to the RISC* family. Its instruction set is simplified, allowing most operations to be executed in a single cycle, optimizing both speed and design simplicity.
 
 > [!NOTE]
-> SHDL is a language for describing digital circuits in a simple and modular way.
+> SHDL (Simple Hardware Description Language) is a language for describing digital circuits in a simple and modular way.
 > It is not a programming language, but a description of the different equipotentials that make up a circuit and their combinatorial or sequential relationships.
 > Once a design has been correctly described in SHDL, it can be "powered" and deployed by simulation or synthesis into a real FPGA circuit.
 
