@@ -7,11 +7,11 @@
 
 Ce projet a été réalisé dans le cadre d'un TP (Travaux Pratiques) dirigé par [Jean-Christophe Buisson](https://fr.linkedin.com/in/jean-christophe-buisson) et appuyé sur son [livre](https://amazon.fr/stores/Jean-Christophe-Buisson/author/B004N2KQXM) à l'[ENSEEIHT](https://www.enseeiht.fr/).
 
-Le but de ce projet était d'implémenter en SHDL un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.
+Le but de ce projet était d'implémenter en SHDL un microprocesseur CRAPS. CRAPS est un microprocesseur 32 bits basé sur l'architecture SPARC, qui appartient à la famille des architectures RISC*. Son jeu d'instructions est simplifié, permettant l'exécution de la majorité des opérations en un seul cycle, ce qui optimise à la fois la vitesse et la simplicité de conception.  
 
 Dépôt GitHub associé :  
-    https://github.com/Darcolosse/craps-microprocessor <br>
-    https://github.com/Hugo-CASTELL/craps-microprocessor 
+    [Dépôt github @Darcolosse](https://github.com/Darcolosse/craps-microprocessor)  
+    [Dépot github @Hugo-CASTELL](https://github.com/Hugo-CASTELL/craps-microprocessor)  
 
 > [!NOTE]
 > SHDL (Simple Hardware Description Language) est un langage pour décrire les circuits numériques d'une manière simple et modulaire. 
