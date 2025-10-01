@@ -1,4 +1,4 @@
-# Microprocesseur en CRAPS
+# Microprocesseur en CRAPS & SHDL
 
 > [!CAUTION]
 > You can find the [README (English)](./README_EN.md) in English if you prefer
